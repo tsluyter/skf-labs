@@ -28,10 +28,11 @@ RUN cd /tmp && mkdir /skf-labs \
 WORKDIR /skf-labs/XSS
 
 # Fixing Windows line endings for our students:
-RUN find . -name "*.sh" -o -name "*.py" -o -name "*.css" -o -name "*.js" | xargs dos2unix
+RUN find . -name "*.sh" -o -name "*.py" -o -name "*.css" -o -name "*.js" | xargs dos2unix \
+&& find . -name "*.sh" -o -name "*.py" | xargs chmod +x \
+&& adduser -D www; chown -R www:www /skf-labs
 
-# Setting chmod +x on the scripts:
-RUN find . -name "*.sh" -o -name "*.py" | xargs chmod +x
+USER www
 
 # Starting the actual application:
 CMD [ "python3", "./XSS.py" ]
